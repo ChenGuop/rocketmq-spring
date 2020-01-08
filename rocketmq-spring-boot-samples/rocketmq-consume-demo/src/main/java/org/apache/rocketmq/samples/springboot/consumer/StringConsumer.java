@@ -17,6 +17,9 @@
 
 package org.apache.rocketmq.samples.springboot.consumer;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.spring.annotation.ConsumeMode;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Service;
@@ -25,10 +28,15 @@ import org.springframework.stereotype.Service;
  * RocketMQMessageListener
  */
 @Service
-@RocketMQMessageListener(topic = "${demo.rocketmq.topic}", consumerGroup = "string_consumer")
-public class StringConsumer implements RocketMQListener<String> {
+@RocketMQMessageListener(topic = "${demo.rocketmq.topic}",
+        consumerGroup = "string_consumer",
+        consumeMode = ConsumeMode.ORDERLY,
+        consumeThreadMax = 8)
+@Slf4j
+public class StringConsumer implements RocketMQListener<MessageExt> {
     @Override
-    public void onMessage(String message) {
-        System.out.printf("------- StringConsumer received: %s \n", message);
+    public void onMessage(MessageExt message) throws InterruptedException {
+        log.info("------- StringConsumer received: {}, {}", message.getQueueId(), new String(message.getBody()));
+        Thread.sleep(500);
     }
 }

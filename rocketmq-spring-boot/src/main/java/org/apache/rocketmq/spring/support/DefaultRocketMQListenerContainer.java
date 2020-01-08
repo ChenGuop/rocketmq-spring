@@ -86,6 +86,8 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
     private SelectorType selectorType;
     private String selectorExpression;
     private MessageModel messageModel;
+    private int pullInterval;
+    private int consumeMessageBatchMaxSize;
 
     public long getSuspendCurrentQueueTimeMillis() {
         return suspendCurrentQueueTimeMillis;
@@ -168,6 +170,8 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         this.messageModel = anno.messageModel();
         this.selectorExpression = anno.selectorExpression();
         this.selectorType = anno.selectorType();
+        this.pullInterval = anno.pullInterval();
+        this.consumeMessageBatchMaxSize = anno.consumeMessageBatchMaxSize();
     }
 
     public ConsumeMode getConsumeMode() {
@@ -192,6 +196,14 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
 
     public void setConsumer(DefaultMQPushConsumer consumer) {
         this.consumer = consumer;
+    }
+
+    public int getPullInterval() {
+        return pullInterval;
+    }
+
+    public int getConsumeMessageBatchMaxSize() {
+        return consumeMessageBatchMaxSize;
     }
 
     @Override
@@ -388,6 +400,8 @@ public class DefaultRocketMQListenerContainer implements InitializingBean, Rocke
         consumer = new DefaultMQPushConsumer(consumerGroup);
         consumer.setNamesrvAddr(nameServer);
         consumer.setConsumeThreadMax(consumeThreadMax);
+        consumer.setPullInterval(pullInterval);
+        consumer.setConsumeMessageBatchMaxSize(consumeMessageBatchMaxSize);
         if (consumeThreadMax < consumer.getConsumeThreadMin()) {
             consumer.setConsumeThreadMin(consumeThreadMax);
         }

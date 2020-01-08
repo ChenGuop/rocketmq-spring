@@ -69,4 +69,15 @@ public @interface RocketMQMessageListener {
      */
     int consumeThreadMax() default 64;
 
+    /**
+     * Pull message interval, because long polling it is 0, but for flow control, you can set value which greater than 0 in milliseconds
+     * @return
+     */
+    int pullInterval() default 0;
+
+    /**
+     * Batch consume message
+     * @return
+     */
+    int consumeMessageBatchMaxSize() default 1;
 }

@@ -33,7 +33,7 @@
         <url>git@github.com:apache/rocketmq-spring.git</url>
         <connection>scm:git:git@github.com:apache/rocketmq-spring.git</connection>
         <developerConnection>scm:git:git@github.com:apache/rocketmq-spring.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>release-2.0.1-dev</tag>
     </scm>
 
     <mailingLists>

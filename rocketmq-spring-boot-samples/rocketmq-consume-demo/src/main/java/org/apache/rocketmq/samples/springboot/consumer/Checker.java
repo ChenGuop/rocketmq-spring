@@ -21,6 +21,7 @@ import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.apache.rocketmq.spring.annotation.RocketMQTransactionListener;
 
 /**
  * Note: This is a nagitive testing. It aims to tell user the fact that
@@ -30,7 +31,7 @@ import org.apache.rocketmq.common.message.MessageExt;
  * and run the consumer, it will fail to start.
  */
 
-//@RocketMQTransactionListener
+@RocketMQTransactionListener
 public class Checker implements TransactionListener {
     @Override
     public LocalTransactionState executeLocalTransaction(Message message, Object o) {
